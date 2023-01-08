@@ -3,6 +3,7 @@
 #include <locale.h> //biblioteca de alocacoes de texto
 #include <string.h> //biblioteca de strings 
 
+// INICIO DAS FUNCOES
 int registrar()
 {
    // inicio declaracao de variaveis
@@ -269,6 +270,7 @@ int deletar()
 	// Fim tela 09.
 }
 
+// FIM DAS FUNCOES 
 
 int main()
 {
@@ -281,11 +283,12 @@ int main()
     	setlocale(LC_ALL, "Portuguese"); // Definindo linguagem
         
         //inicio tela 1 
-		printf("===== PUBLIC NOTARY OFFICE ===== \n\n"); // Inicio do menu
+		printf("===== EBAC NOTARY OFFICE ===== \n\n"); // Inicio do menu
 		printf("Welcome to the Registry's software. \n\n\n");
 		printf("\t 1. Register a new name. \n");
 		printf("\t 2. Query a name. \n");
-		printf("\t 3. Delete a name. \n\n\n");
+		printf("\t 3. Delete a name. \n");
+		printf("\t 4. Exit program. \n\n\n");
 	
 		printf("Please choose one of the options shown above: "); //fim do menu
 		scanf("%d", &opcao); // Armazenando a resposta do usuario 
@@ -306,6 +309,12 @@ int main()
 			case 3:
 			deletar(); // Acionando a funcao de deletar.
 			break;
+			
+			case 4:
+			printf("Exit succesfully done. ");
+			return 0;
+			break;
+			
 			//inicio tela 2
 			default:
 			printf("This option is not available, try again!\n\n");
