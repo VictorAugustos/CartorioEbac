@@ -269,26 +269,80 @@ int deletar()
 	
 	// Fim tela 09.
 }
-
-// FIM DAS FUNCOES 
-
-int main()
+int alterardados()
 {
-	int opcao=0; // Definindo variavel de resposta do usuario
+	//inicio variaveis
+	char checar[100];
+	char email[100];
+	char senha[40];
+	char email2[100];
+	char senha2[40];
+	char checar2[100];
+	//fim variaveis
+	
+	// Inicio tela 10.
+	printf("Insert old Email and Passwords: ");
+	printf("\n\n Old email: ");
+	scanf("%s", email); // Guardando chave mestra para alteracao
+	
+	FILE *velho; //Criando os comandos FILE
+	FILE *novo;
+			
+	strcpy (checar, email);
+				
+	velho = fopen (checar, "r"); //Lendo a chave mestra no arquivo para averiguacao.
+	
+	fclose(velho); // fechando arquivo para bom funcionamento.
+				
+	if (velho == NULL) // Verificando existencia do arquivo.
+	{
+		// Inicio tela 11.
+		printf("This email is incorrect, please try again.\n\n ");
+		// Fim tela 11.
+	}
+	else // Caso exista.
+	{
+		printf("\n\n============================================");
+		printf("\nInsert NEW Email and Password: ");
+		printf("\n\n New email: ");
+		scanf("%s", email2);
+		printf("\n New password: ");
+		scanf("%s", senha2);
+					
+		remove(email); // Deletando antigo arquivo para a criacao do novo.
+		
+		strcpy (checar2, email2);
+					
+		novo = fopen (checar2, "w"); // Criando novo arquivo com o email como chave mestra.
+			fprintf(novo, email2); 
+			fprintf(novo, senha2); // Inserindo senha para login posterior.
+		fclose(novo);
+					
+		printf("\n\n Account details updated succesfully! \n\n");
+					
+		
+	}
+	system("pause");
+	// Fim tela 10.
+}
+
+int menu()
+{
+	int opcao=0;
 	int laco=1;
 	
 	for (laco=1; laco=1;)
 	{
-	
-    	setlocale(LC_ALL, "Portuguese"); // Definindo linguagem
-        
-        //inicio tela 1 
+		system("cls");
+		
+	//inicio tela 1 
 		printf("===== EBAC NOTARY OFFICE ===== \n\n"); // Inicio do menu
 		printf("Welcome to the Registry's software. \n\n\n");
 		printf("\t 1. Register a new name. \n");
 		printf("\t 2. Query a name. \n");
 		printf("\t 3. Delete a name. \n");
-		printf("\t 4. Exit program. \n\n\n");
+		printf("\t 4. Update account details.\n ");
+		printf("\t 5. Exit program. \n\n\n");
 	
 		printf("Please choose one of the options shown above: "); //fim do menu
 		scanf("%d", &opcao); // Armazenando a resposta do usuario 
@@ -311,6 +365,10 @@ int main()
 			break;
 			
 			case 4:
+			alterardados(); // Acionando funcao de alterar dados da conta.
+			break;
+			
+			case 5:
 			printf("Exit succesfully done. ");
 			return 0;
 			break;
@@ -322,9 +380,144 @@ int main()
 		    // fim tela 2
 			
 		} //fim da selecao
-		
-		system("cls"); // Limpando a tela.  
-		
-    } 
+		 
+	}
+}
 
+// FIM DAS FUNCOES 
+
+
+
+
+int main()
+{
+	// inicio variaveis
+	int opcao=0; 
+	int laco=1;
+	char email[40];
+	char senha[40];
+	int checar=0;
+	char conteudo[100];
+	char checar2[40];
+	char checar3[100];
+	// fim variaveis
+	
+	for (laco=1; laco=1;) // 
+	{	
+		system ("cls");
+		
+	    // Inicio tela 12.
+	    
+	    // Menu inicial
+		printf("===== EBAC NOTARY OFFICE ===== \n\n");
+		printf("1. LOGIN "); 
+		printf("\n2. REGISTER");
+		printf("\n3. EXIT. ");
+		printf("\n\nOption: ");
+		scanf("%d", &opcao); 
+		// Menu incial
+	
+		FILE *login1;
+		FILE *login2;
+	
+		switch (opcao)
+		{
+			case 1: // .
+				
+				printf("===========================================");
+    			printf("\n\nInsert your details do LOGIN. \n\n");
+				printf("Email: ");
+				scanf("%s", email); // Guardando email como chave mestra para nomecao de arquivo.
+				printf("Password: ");
+				scanf("%s", senha); 
+				
+				strcpy (checar3, email);
+				
+				login2 = fopen (checar3, "r"); //Lendo a chave no arquivo para averiguacao.
+				
+				if (login2 != NULL) // Inicio da averiguacao de acesso a conta.
+				{
+					strcat (email, senha);
+					strcpy (checar3, email);
+					
+					while (fgets(conteudo, 100, login2) != NULL ) // Lendo as informacoes de acesso para uma variavel de comparacao.
+					{
+					}
+					
+					checar = strcmp (checar3, conteudo); // Comparando as informacoes de login.
+					fclose(login2);
+					
+					if (checar == 0) // Verificando se as informacoes de login estao corretas.
+					{
+						menu();
+					}
+	    // Fim tela 12.
+					else // Caso estejam incorretas.
+					
+					    // Inicio tela 13.
+						printf("\n\nEither password or email are incorrect, please try again. \n\n");
+						system("pause");
+						// Fim tela 13.
+					
+				} else 
+				    // Inicio tela 14.
+					printf("\n\nThis account does not exist, please try again! \n\n");
+					system("pause");
+					// Fim tela 14.
+					
+					// Fim da averiguacao de acesso.
+				
+			break;
+	
+			case 2: // Inicio do registro de novas contas.
+			
+				system("cls");
+				
+				//inicio tela 15.
+				
+				printf("=======================================");
+				printf("\n\nInsert your details to REGISTER. \n\n");
+				printf("Email: ");
+				scanf("%s", email); // Guardando email como chave mestra. 
+				printf("Password: ");
+				scanf("%s", senha); // Guarando senha para averiguacao.
+				
+				strcpy (checar2, email);
+				
+				login1 = fopen (checar2, "r"); // Lendon chave mestra no arquivo.
+				fclose(login1);
+				
+				if (login1 == NULL) // Verificando se o arquivo ja existe.
+				{	
+					login1 = fopen (checar2,"w"); // Criando conta.
+						fprintf(login1, email); // Inserindo dados.
+						fprintf(login1, senha);
+					fclose(login1);
+					
+					printf("\nAccount succesfully created.\n\n");
+					system("pause");
+					
+				// Fim tela 15.
+				} 
+				else 
+				{
+					// Inicio tela 16.
+					printf("This email is already registered, to change password or email please login.\n\n ");
+					system("pause");
+					// Fim tela 16.
+				}
+				
+				break;
+			
+			case 3:
+				return (0);	
+			break;
+	
+			default:
+				printf("This option does not exist.");
+				system("pause");
+				
+		
+		 }
+	} 
 }
