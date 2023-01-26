@@ -4,6 +4,10 @@
 #include <string.h> //biblioteca de strings 
 
 // INICIO DAS FUNCOES
+
+char logincheckglb[100];
+
+
 int registrar()
 {
    // inicio declaracao de variaveis
@@ -26,7 +30,7 @@ int registrar()
    if (file != NULL ) // verificar se o arquivo ja esta cadastrado 
    {    
         // Inicio tela 04
-        printf("\nThis profile already exists, please try again! \n");
+        printf("\nA profile with this CPF already exists, please try again! \n");
         printf("To update this profile query it on the second option a the menu. \n\n");
    	  
    	  	system("pause");
@@ -99,6 +103,7 @@ int consultar()
 	char consulta[40];
 	char conteudo[200];
 	int opcao = 0;
+	int comparacao = 0;
 	
     char arquivo[40];
     char cpf[40];
@@ -112,6 +117,15 @@ int consultar()
 	scanf("%s", consulta); // Armazenando chave mestra.
 	
 	FILE *file;
+	
+	comparacao = strcmp (logincheckglb, consulta);
+	
+	if (comparacao == 0)
+	{
+		printf("\n\n---- ERROR ----\n\n. ");
+		system ("pause");
+		return 0;
+	}
 	
 	file = fopen(consulta, "r"); // Lendo a chave no arquivo para consulta.
 	
@@ -227,6 +241,7 @@ int deletar()
 	// Inicio declaracao variaveis 
 	char cpf[40];
 	int opcao = 0;
+	int comparacao = 0;
 	// Fim declaracao variaveis 
 	
 	// Inicio tela 09.
@@ -234,6 +249,16 @@ int deletar()
 	scanf("%s", cpf); // armazenando a chave mestra 
 	
 	FILE *file;
+	
+	comparacao = strcmp (logincheckglb, cpf);
+	
+	if (comparacao == 0)
+	{
+		printf("\n\n---- ERROR ----\n\n. ");
+		system ("pause");
+		return 0;
+	}
+	
 	file = fopen(cpf, "r"); // Lendo a chave mestra no arquivo para consulta.
 	
 	if (file == NULL) // verificando a existencia do arquivo 
@@ -269,6 +294,7 @@ int deletar()
 	
 	// Fim tela 09.
 }
+
 int alterardados()
 {
 	//inicio variaveis
@@ -278,12 +304,17 @@ int alterardados()
 	char email2[100];
 	char senha2[40];
 	char checar2[100];
+	char conteudo[120];
+	int comparacao=0;
+	
 	//fim variaveis
 	
 	// Inicio tela 10.
 	printf("Insert old Email and Passwords: ");
 	printf("\n\n Old email: ");
 	scanf("%s", email); // Guardando chave mestra para alteracao
+	printf("\n Old password: ");
+	scanf("%s", senha);
 	
 	FILE *velho; //Criando os comandos FILE
 	FILE *novo;
@@ -292,7 +323,7 @@ int alterardados()
 				
 	velho = fopen (checar, "r"); //Lendo a chave mestra no arquivo para averiguacao.
 	
-	fclose(velho); // fechando arquivo para bom funcionamento.
+	
 				
 	if (velho == NULL) // Verificando existencia do arquivo.
 	{
@@ -302,24 +333,39 @@ int alterardados()
 	}
 	else // Caso exista.
 	{
-		printf("\n\n============================================");
-		printf("\nInsert NEW Email and Password: ");
-		printf("\n\n New email: ");
-		scanf("%s", email2);
-		printf("\n New password: ");
-		scanf("%s", senha2);
-					
-		remove(email); // Deletando antigo arquivo para a criacao do novo.
+		while (fgets(conteudo, 120, velho) != NULL )
+		{ 
+		}
+	
+		fclose(velho); // fechando arquivo para bom funcionamento.
+	
+		strcat (checar, senha);
+	
+		comparacao = strcmp (checar, conteudo);
 		
-		strcpy (checar2, email2);
+		if (comparacao == 0)
+		{
+			
+			printf("\n\n============================================");
+			printf("\nInsert NEW Email and Password: ");
+			printf("\n\n New or Same email: ");
+			scanf("%s", email2);
+			printf("\n New or Same password: ");
+			scanf("%s", senha2);
+						
+			remove(email); // Deletando antigo arquivo para a criacao do novo.
+		
+			strcpy (checar2, email2);
 					
-		novo = fopen (checar2, "w"); // Criando novo arquivo com o email como chave mestra.
-			fprintf(novo, email2); 
-			fprintf(novo, senha2); // Inserindo senha para login posterior.
-		fclose(novo);
+			novo = fopen (checar2, "w"); // Criando novo arquivo com o email como chave mestra.
+				fprintf(novo, email2); 
+				fprintf(novo, senha2); // Inserindo senha para login posterior.
+			fclose(novo);
 					
-		printf("\n\n Account details updated succesfully! \n\n");
-					
+			printf("\n\n Account details updated succesfully! \n\n");
+		}
+		else 
+			printf("\n The password is incorrect. \n\n");
 		
 	}
 	system("pause");
@@ -387,8 +433,6 @@ int menu()
 // FIM DAS FUNCOES 
 
 
-
-
 int main()
 {
 	// inicio variaveis
@@ -437,8 +481,7 @@ int main()
 				
 				if (login2 != NULL) // Inicio da averiguacao de acesso a conta.
 				{
-					strcat (email, senha);
-					strcpy (checar3, email);
+					strcat (checar3, senha);
 					
 					while (fgets(conteudo, 100, login2) != NULL ) // Lendo as informacoes de acesso para uma variavel de comparacao.
 					{
@@ -449,6 +492,7 @@ int main()
 					
 					if (checar == 0) // Verificando se as informacoes de login estao corretas.
 					{
+						strcpy (logincheckglb, email);
 						menu();
 					}
 	    // Fim tela 12.
